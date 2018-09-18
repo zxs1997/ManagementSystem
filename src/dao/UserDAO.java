@@ -45,6 +45,29 @@ public class UserDAO {
         return arrayList;
     }
 
+    public void DoRegInsertion(String username, String password, String email) throws SQLException {
+        connection = DBHelper.getConnection();
+        String SQL = "INSERT INTO userinfo(username,password,email) VALUES ('"+
+                username+"','"+password+"','"+email+"');";
+        try {
+            preparedStatement = connection.prepareStatement(SQL);
+            Boolean result = preparedStatement.execute();
+            System.out.println(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //关闭连接
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+            preparedStatement = null;
+        }
+
+    }
+
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
         ArrayList<Users> a = new ArrayList<>();
@@ -58,4 +81,6 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
+
+
 }
