@@ -10,11 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserDAO {
-    Connection connection = null;
-    PreparedStatement preparedStatement = null;
-    ResultSet resultSet = null;
+
 
     public ArrayList<Users> DoQuery(String SQL) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         connection = DBHelper.getConnection();
         //新建ArrayList用来返回结果
         ArrayList<Users> arrayList = new ArrayList<>();
@@ -46,6 +47,8 @@ public class UserDAO {
     }
 
     public void DoRegInsertion(String username, String password, String email) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
         connection = DBHelper.getConnection();
         String SQL = "INSERT INTO userinfo(username,password,email) VALUES ('"+
                 username+"','"+password+"','"+email+"');";

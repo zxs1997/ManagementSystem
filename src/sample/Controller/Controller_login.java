@@ -43,7 +43,15 @@ public class Controller_login {
                 System.out.println(u.toString() + " " + username + " " + password);
                 System.out.println(u.getUsername() + " " + u.getPassword());
                 if ((u.getUsername().equals(username)) && (u.getPassword().equals(password))) {
-                    System.out.println("登录成功");
+                    //跳转至主界面
+                    Stage stage = (Stage) lg_username.getScene().getWindow();
+                    // Swap screen
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("/sample/scenes/Content.fxml"));
+                        stage.setScene(new Scene(root));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     return;
                 }
             }
