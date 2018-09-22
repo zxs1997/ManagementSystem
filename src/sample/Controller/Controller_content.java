@@ -24,10 +24,10 @@ public class Controller_content {
     public TableColumn stu_number_col;
     public TableColumn stu_sex_col;
     public TableColumn stu_class_col;
-    
+    public Button stu_button;
 
-    enum TABLE_SELECTED{
-        nothing,stu_info,course_info;
+    enum TABLE_SELECTED {
+        nothing, stu_info, course_info;
     }
 
     TABLE_SELECTED table_selected = TABLE_SELECTED.nothing;
@@ -37,16 +37,16 @@ public class Controller_content {
 
         //表格行 与 bean属性的绑定
         stu_name_col.setCellValueFactory(
-                new PropertyValueFactory<Students,String>("name")
+                new PropertyValueFactory<Students, String>("name")
         );
         stu_number_col.setCellValueFactory(
-                new PropertyValueFactory<Students,String>("number")
+                new PropertyValueFactory<Students, String>("number")
         );
         stu_sex_col.setCellValueFactory(
-                new PropertyValueFactory<Students,String>("sex")
+                new PropertyValueFactory<Students, String>("sex")
         );
         stu_class_col.setCellValueFactory(
-                new PropertyValueFactory<Students,String>("class_room")
+                new PropertyValueFactory<Students, String>("class_room")
         );
         //此list用于装载数据
         ObservableList<Students> stu_list = FXCollections.observableArrayList();
@@ -54,9 +54,9 @@ public class Controller_content {
         StudentsDAO studentsDAO = new StudentsDAO();
         String SQL = "SELECT * FROM stu_info";
         ArrayList<Students> arrayList = studentsDAO.DoQuery(SQL);
-        for (Students student:arrayList
-             ) {
-            stu_list.add(new Students(student.getName(),student.getSex(),student.getClass_room(),student.getNumber()));
+        for (Students student : arrayList
+        ) {
+            stu_list.add(new Students(student.getName(), student.getSex(), student.getClass_room(), student.getNumber()));
         }
 
         stu_tableView.setItems(stu_list);
@@ -71,8 +71,8 @@ public class Controller_content {
     }
 
     public void insertData(ActionEvent actionEvent) {
-        
-        switch (table_selected){
+
+        switch (table_selected) {
             case stu_info:
                 System.out.println("现在是学生表");
                 //弹出插入提示框
@@ -96,4 +96,39 @@ public class Controller_content {
                 break;
         }
     }
+
+    public void deleteData(ActionEvent actionEvent) {
+        switch (table_selected) {
+            case stu_info:
+                Students students = stu_tableView.getSelectionModel().getSelectedItem();
+                if (students == null){
+                    //没选择记录的时候
+                    break;
+                }
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"是否要删除此条记录？",ButtonType.APPLY,ButtonType.CANCEL);
+                alert.showAndWait();
+                if (alert.getResult()==ButtonType.APPLY){
+                    System.out.println(students.getNumber()+"要被删掉了，惨");
+                    //执行删除操作
+                    StudentsDAO studentsDAO = new StudentsDAO();
+                    String number = students.getNumber();
+                    try {
+                        studentsDAO.DoStuDelete(number);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    Alert alert1 = new Alert(Alert.AlertType.NONE,"删除成功！",ButtonType.OK);
+                    alert1.showAndWait();
+                    //模拟按键被点击：刷新了页面
+                    stu_button.fire();
+                }
+
+
+            default:
+                break;
+        }
+
+
+    }
+
 }

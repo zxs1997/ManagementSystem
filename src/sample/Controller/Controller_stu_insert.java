@@ -27,6 +27,13 @@ public class Controller_stu_insert {
     }
 
     public void stu_insert_confirm(ActionEvent actionEvent) {
+        //防止输入空值
+        if (stu_insert_name.getText().equals("")&&stu_insert_number.getText().equals("")&&stu_insert_sex.getText().equals("")
+        &&stu_insert_class.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.NONE,"请输入数据",ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
         //先防止插入重复的数据
         StudentsDAO studentsDAO = new StudentsDAO();
         String SQL = "SELECT * FROM stu_info";

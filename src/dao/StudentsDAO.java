@@ -76,6 +76,29 @@ public class StudentsDAO {
 
     }
 
+    public void DoStuDelete(String number) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        connection = DBHelper02.getConnection();
+        String SQL = "DELETE FROM stu_info WHERE stu_number='"+ number+"';";
+        try {
+            preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //关闭连接
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+            preparedStatement = null;
+        }
+
+    }
+
     public static void main(String[] args) throws SQLException {
         StudentsDAO dao = new StudentsDAO();
         ArrayList<Students> a = dao.DoQuery("SELECT * FROM stu_info");
