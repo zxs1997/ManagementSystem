@@ -3,12 +3,18 @@ package sample.Controller;
 import Entity.Students;
 import dao.StudentsDAO;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -18,6 +24,13 @@ public class Controller_content {
     public TableColumn stu_number_col;
     public TableColumn stu_sex_col;
     public TableColumn stu_class_col;
+    
+
+    enum TABLE_SELECTED{
+        nothing,stu_info,course_info;
+    }
+
+    TABLE_SELECTED table_selected = TABLE_SELECTED.nothing;
 
 
     public void show_stuTableView(ActionEvent actionEvent) throws SQLException {
@@ -47,6 +60,40 @@ public class Controller_content {
         }
 
         stu_tableView.setItems(stu_list);
-        System.out.println("显示数据");
+        //将当前表格设为学生表
+        table_selected = TABLE_SELECTED.stu_info;
+
+    }
+
+    public void show_courseTableView(ActionEvent actionEvent) {
+        //将当前表格设为课程表
+        table_selected = TABLE_SELECTED.course_info;
+    }
+
+    public void insertData(ActionEvent actionEvent) {
+        
+        switch (table_selected){
+            case stu_info:
+                System.out.println("现在是学生表");
+                //弹出插入提示框
+                Stage primaryStage = new Stage();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getClassLoader().getResource("views/stu_insert_view.fxml"));
+                    primaryStage.setTitle("插入数据");
+                    primaryStage.setScene(new Scene(root, 600, 400));
+                    primaryStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case course_info:
+                System.out.println("现在是课程表");
+                break;
+            default:
+                System.out.println("nothing");
+                break;
+        }
     }
 }

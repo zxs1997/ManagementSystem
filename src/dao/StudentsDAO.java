@@ -51,6 +51,31 @@ public class StudentsDAO {
         return arrayList;
     }
 
+    public void DoStuInsertion(String name , String number, String sex,String classroom) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        connection = DBHelper02.getConnection();
+        String SQL = "INSERT INTO stu_info(stu_name,stu_number,stu_class,stu_sex) VALUES ('"+
+                name+"','"+number+"','"+classroom+"','"+sex+"');";
+        try {
+            preparedStatement = connection.prepareStatement(SQL);
+            Boolean result = preparedStatement.execute();
+            System.out.println(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //关闭连接
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+            preparedStatement = null;
+        }
+
+    }
+
     public static void main(String[] args) throws SQLException {
         StudentsDAO dao = new StudentsDAO();
         ArrayList<Students> a = dao.DoQuery("SELECT * FROM stu_info");
