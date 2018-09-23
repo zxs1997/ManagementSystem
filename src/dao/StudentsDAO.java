@@ -99,6 +99,7 @@ public class StudentsDAO {
 
     }
 
+
     public static void main(String[] args) throws SQLException {
         StudentsDAO dao = new StudentsDAO();
         ArrayList<Students> a = dao.DoQuery("SELECT * FROM stu_info");
