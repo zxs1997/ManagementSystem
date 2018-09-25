@@ -28,6 +28,8 @@ public class Controller_content {
     public Label query_label;
     public TextField query_textfield;
 
+    public TableView<Students> tableView ;
+
     TABLE_SELECTED table_selected = TABLE_SELECTED.nothing;
 
     public void show_stuTableView(ActionEvent actionEvent) throws SQLException {
@@ -83,7 +85,6 @@ public class Controller_content {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 break;
             case course_info:
                 System.out.println("现在是课程表");
@@ -171,6 +172,17 @@ public class Controller_content {
     public void updateData(ActionEvent actionEvent) {
         switch (table_selected) {
             case stu_info:
+                //弹出插入提示框
+                Stage primaryStage = new Stage();
+                Parent root = null;
+                try {
+                    root = FXMLLoader.load(getClass().getClassLoader().getResource("views/stu_update_view.fxml"));
+                    primaryStage.setTitle("更新数据");
+                    primaryStage.setScene(new Scene(root, 600, 400));
+                    primaryStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
             case course_info:
                 break;

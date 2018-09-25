@@ -76,6 +76,31 @@ public class StudentsDAO {
 
     }
 
+    public void DoStuUpdate(String name , String number, String sex,String classroom) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        connection = DBHelper02.getConnection();
+        String SQL = "UPDATE stu_info SET stu_name='"+name+"',stu_number='"+number+"',stu_class='"+classroom+"',stu_sex='"+
+               sex+"' WHERE stu_number='"+number+"';";
+        try {
+            preparedStatement = connection.prepareStatement(SQL);
+            Boolean result = preparedStatement.execute();
+            System.out.println(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //关闭连接
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+            preparedStatement = null;
+        }
+
+    }
+
     public void DoStuDelete(String number) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
